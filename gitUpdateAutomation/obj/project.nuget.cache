@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0t5/8erLFwHvM3Y7cHaMlsAYWikh/Kgrjp6tgUiMKAdbAWgZwugbVS+dsv8qXXZ2waYopOAa2tcSSEbkK82Ztw==",
+  "dgSpecHash": "GroTFQi7MY2iKJRIxWDWAgbiPfhMS721AB6njCz6bWKwHJ0vSMxCuGEBWbijIj//5Zs0cN9MMMg0Vw1WvvsuiA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\Documents\\GitHub\\gitUpdateAutomation\\gitUpdateAutomation.csproj",
+  "projectFilePath": "C:\\Users\\admin\\Documents\\inf\\inform\\inform\\gitUpdateAutomation\\gitUpdateAutomation.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.app\\2.1.0\\microsoft.netcore.app.2.1.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.dotnetapphost\\2.1.0\\microsoft.netcore.dotnetapphost.2.1.0.nupkg.sha512",

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.Threading;
-
+using System.Threading.Tasks;
 
 namespace gitUpdateAutomation
 {
@@ -59,7 +59,7 @@ namespace gitUpdateAutomation
             StreamWriter writer = new StreamWriter(path);
             writer.Write(content);
             writer.Close();
-        }      
+        }
         private static void configurationReplacement(string path, string pathMove, string filename, Param param)
         {
             path += "/" + filename;
@@ -93,7 +93,7 @@ namespace gitUpdateAutomation
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
             process.WaitForExit();
-
+            process.Close();
             Console.Write("Output:");
             Console.WriteLine(output);
             Console.Write("Error:");
@@ -109,7 +109,7 @@ namespace gitUpdateAutomation
             }
             string jsonString = File.ReadAllText(localConfPath);
             LocalData localData = JsonConvert.DeserializeObject<LocalData>(jsonString);
-            
+
             if (localData.removeBinObj == null) { setValues("remove-bin-obj", ref localData.removeBinObj); }
             if (localData.removeNuget == null) { setValues("remove nuget cache", ref localData.removeNuget); }
             if (localData.removeNodeModules == null) { setValues("remove node-modules", ref localData.removeNodeModules); }
@@ -118,8 +118,8 @@ namespace gitUpdateAutomation
             if (localData.recoveryNugetPackage == null) { setValues("recovery nuget pacckage", ref localData.recoveryNugetPackage); }
 
             // Копирование конфигурационных файлов WebApi на уровень выше и замена параметров
-            configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath,"nginx.conf", localData.param);
-            configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.informIusPath + "/WebApi","ServiceConfiguration.json", localData.param);
+            configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "nginx.conf", localData.param);
+            configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.informIusPath + "/WebApi", "ServiceConfiguration.json", localData.param);
             configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "upstreams.conf", localData.param);
             configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "proxy-services.conf", localData.param);
 
@@ -127,77 +127,114 @@ namespace gitUpdateAutomation
             configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.dev.local", localData.param);
             configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.local", localData.param);
 
-            // Запуск процессов    
-            runProcess(localData.informIusPath + "/WebApi", "/c powershell -file kill.ps1");
-            runProcess(localData.DB_BackupPath, "/c backup-and-restore.cmd");
-            runProcess(localData.informIusPath, $"/c update-db.cmd {localData.param.PARAM_DATABASE} -w");
-            if (localData.recoveryNpmPackage == "true")
-            {
-
-                runProcess(localData.informIusPath + "/WebApi", "/c npm i");
-            }
-            if (localData.recoveryNugetPackage == "true")
-            {
-                runProcess(localData.nugetExePath, $"/c set NUGET_PACKAGES={localData.cachePath[1]} & nuget restore");
-            }
-            if (localData.removeBinObj == "true" )
-            {
-                runProcess(localData.informIusPath, "/c powershell -file remove-bin-obj.ps1");
-            }
-
-            // Удаление кэша
-            if (localData.removeNuget == "true")
-            {
-                foreach (string path in localData.cachePath)
+            // Запуск процессов             
+            Task task_kill = new Task(() => {
+                Console.WriteLine("Start process kill.ps1");
+                runProcess(localData.informIusPath + "/WebApi", "/c powershell -file kill.ps1");
+                Console.WriteLine("Finish process kill.ps1");
+            });
+            Task task_backup_and_restore = new Task(() => {
+                Console.WriteLine("Start process backup-and-restore.cmd");
+                runProcess(localData.DB_BackupPath, "/c backup-and-restore.cmd");
+                Console.WriteLine("Finish process backup-and-restore.cmd");
+            });
+            Task task_update_db = task_backup_and_restore.ContinueWith(t => {
+                Console.WriteLine("Start process update-db.cmd");
+                runProcess(localData.informIusPath, $"/c update-db.cmd {localData.param.PARAM_DATABASE} -w");
+                Console.WriteLine("Finish process update-db.cmd");
+            });
+            Task task_remove_bin_obj = new Task(() => {
+                if (localData.removeBinObj == "true")
                 {
-                    DirectoryInfo folder = new DirectoryInfo(path);
-                    foreach (FileInfo file in folder.GetFiles())
+                    Console.WriteLine("Start process remove-bin-obj.ps1");
+                    runProcess(localData.informIusPath, "/c powershell -file remove-bin-obj.ps1");
+                    Console.WriteLine("Finish process remove-bin-obj.ps1");
+                }
+            });
+            Task task_remove_nuget = new Task(() => {
+                if (localData.removeNuget == "true")
+                {
+                    Console.WriteLine("Start process remove nuget");
+                    foreach (string path in localData.cachePath)
                     {
-                        file.Delete();
-                    }
-            
-                    foreach (DirectoryInfo dir in folder.GetDirectories())
-                    {
-                        dir.Delete(true);
-                    }
-                }
-            }
+                        DirectoryInfo folder = new DirectoryInfo(path);
+                        foreach (FileInfo file in folder.GetFiles())
+                        {
+                            file.Delete();
+                        }
 
-            // Удаление node-modules
-            if (localData.removeNodeModules == "true")
+                        foreach (DirectoryInfo dir in folder.GetDirectories())
+                        {
+                            dir.Delete(true);
+                        }
+                    }
+                    Console.WriteLine("Finish process remove nuget");
+                }
+            });
+            Task task_restore_nuget = task_remove_nuget.ContinueWith(t =>
             {
-                DirectoryInfo folder = new DirectoryInfo(localData.informIusPath + "/WebApi/node_modules");
-                if (folder.Exists)
+                //nuget restore
+                if (localData.recoveryNugetPackage == "true")
                 {
-                    foreach (FileInfo file in folder.GetFiles())
-                    {
-                        file.Delete();
-                    }
-
-                    foreach (DirectoryInfo dir in folder.GetDirectories())
-                    {
-                        dir.Delete(true);
-                    }
+                    Console.WriteLine("Start process restore nuget");
+                    runProcess(localData.nugetExePath, $"/c set NUGET_PACKAGES={localData.cachePath[1]} & nuget restore");
+                    Console.WriteLine("Finish process restore nuget");
                 }
-                else
-                {
-                    Console.WriteLine($"No such file or directory {folder.FullName}");
-                }
-            }
-
-            // Удаление package-lock
-            if (localData.removePackageLock == "true")
+            });
+            Task task_remove_node_modules = new Task(() =>
             {
-                string packageLockpath = localData.informIusPath + "/WebApi/package-lock.json";
-                if (File.Exists(packageLockpath))
+                // Удаление node-modules
+                if (localData.removeNodeModules == "true")
                 {
-                    File.Delete(packageLockpath);
+                    Console.WriteLine("Start process remove node modules");
+                    DirectoryInfo folder = new DirectoryInfo(localData.informIusPath + "/WebApi/node_modules");
+                    if (folder.Exists)
+                    {
+                        foreach (FileInfo file in folder.GetFiles())
+                        {
+                            file.Delete();
+                        }
+
+                        foreach (DirectoryInfo dir in folder.GetDirectories())
+                        {
+                            dir.Delete(true);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No such file or directory {folder.FullName}");
+                    }
+                    Console.WriteLine("Finish process remove node modules");
                 }
-                else
+                // Удаление package-lock
+                if (localData.removePackageLock == "true")
                 {
-                    Console.WriteLine($"No such file or directory {packageLockpath}");
+                    string packageLockpath = localData.informIusPath + "/WebApi/package-lock.json";
+                    if (File.Exists(packageLockpath))
+                    {
+                        File.Delete(packageLockpath);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No such file or directory {packageLockpath}");
+                    }
                 }
-            } 
+                // npm i 
+                if (localData.recoveryNpmPackage == "true")
+                {
+                    Console.WriteLine("Start process npm i");
+                    runProcess(localData.informIusPath + "/WebApi", "/c npm i");
+                    Console.WriteLine("Finish process npm i");
+                }
+            });
+            task_kill.Start();
+            task_kill.Wait();
+            task_backup_and_restore.Start();
+            task_remove_bin_obj.Start();
+            task_remove_nuget.Start();
+            task_remove_node_modules.Start();
+            Task.WaitAll(task_backup_and_restore, task_update_db, task_remove_bin_obj,
+                task_remove_nuget, task_restore_nuget, task_remove_node_modules);
         }
     }
 }
