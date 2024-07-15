@@ -74,18 +74,47 @@ namespace gitUpdateAutomation
             {
                 Console.WriteLine($"wrong path: {path}");
             }
+        }     
+        private static async Task errorHandler(string path, string command, TimeSpan timespan)
+        {
+            try
+            {
+                await runProcessWithTimeoutAsync(path, command, timespan);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+
+        }
+        private static async Task runProcessWithTimeoutAsync(string path, string command, TimeSpan timespan)
+        {
+            using (var cts = new CancellationTokenSource())
+            {
+                cts.CancelAfter(timespan);
+                try
+                {
+                    await Task.Run(() => runProcess(path, command, cts.Token), cts.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    throw new TimeoutException($"Время выполнения команды '{command}' истекло.");
+                }
+            }
         }
 
-        private static void runProcess(string path, string command)
+        private static void runProcess(string path, string command, CancellationToken token)
         {
-            ProcessStartInfo processInfo = new ProcessStartInfo();
-            processInfo.FileName = "cmd.exe";
-            processInfo.RedirectStandardOutput = true;
-            processInfo.RedirectStandardError = true;
-            processInfo.UseShellExecute = false;
-            processInfo.CreateNoWindow = false;
-            processInfo.WorkingDirectory = path;
-            processInfo.Arguments = command;
+            ProcessStartInfo processInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = false,
+                WorkingDirectory = path,
+                Arguments = command
+            };
 
             Process process = new Process();
             process.StartInfo = processInfo;
@@ -93,6 +122,11 @@ namespace gitUpdateAutomation
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
             process.WaitForExit();
+            if (token.IsCancellationRequested)
+            {
+                process.Close();
+                throw new OperationCanceledException(token);
+            }
             process.Close();
             Console.Write("Output:");
             Console.WriteLine(output);
@@ -127,27 +161,28 @@ namespace gitUpdateAutomation
             configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.dev.local", localData.param);
             configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.local", localData.param);
 
-            // Запуск процессов             
+            TimeSpan timeSpan = TimeSpan.FromSeconds(5);
+
             Task task_kill = new Task(() => {
                 Console.WriteLine("Start process kill.ps1");
-                runProcess(localData.informIusPath + "/WebApi", "/c powershell -file kill.ps1");
+                errorHandler(localData.informIusPath + "/WebApi", "/c powershell -file kill.ps1", timeSpan).Wait();
                 Console.WriteLine("Finish process kill.ps1");
             });
             Task task_backup_and_restore = new Task(() => {
                 Console.WriteLine("Start process backup-and-restore.cmd");
-                runProcess(localData.DB_BackupPath, "/c backup-and-restore.cmd");
+                errorHandler(localData.DB_BackupPath, "/c backup-and-restore.cmd", timeSpan).Wait();
                 Console.WriteLine("Finish process backup-and-restore.cmd");
             });
-            Task task_update_db = task_backup_and_restore.ContinueWith(t => {
+            Task task_update_db = task_backup_and_restore.ContinueWith(async t => {
                 Console.WriteLine("Start process update-db.cmd");
-                runProcess(localData.informIusPath, $"/c update-db.cmd {localData.param.PARAM_DATABASE} -w");
+                errorHandler(localData.informIusPath, $"/c update-db.cmd {localData.param.PARAM_DATABASE} -w", timeSpan).Wait();
                 Console.WriteLine("Finish process update-db.cmd");
             });
             Task task_remove_bin_obj = new Task(() => {
                 if (localData.removeBinObj == "true")
                 {
                     Console.WriteLine("Start process remove-bin-obj.ps1");
-                    runProcess(localData.informIusPath, "/c powershell -file remove-bin-obj.ps1");
+                    errorHandler(localData.informIusPath, "/c powershell -file remove-bin-obj.ps1", timeSpan).Wait();
                     Console.WriteLine("Finish process remove-bin-obj.ps1");
                 }
             });
@@ -173,17 +208,15 @@ namespace gitUpdateAutomation
             });
             Task task_restore_nuget = task_remove_nuget.ContinueWith(t =>
             {
-                //nuget restore
                 if (localData.recoveryNugetPackage == "true")
                 {
                     Console.WriteLine("Start process restore nuget");
-                    runProcess(localData.nugetExePath, $"/c set NUGET_PACKAGES={localData.cachePath[1]} & nuget restore");
+                    errorHandler(localData.nugetExePath, $"/c set NUGET_PACKAGES={localData.cachePath[1]} & nuget restore", timeSpan).Wait();
                     Console.WriteLine("Finish process restore nuget");
                 }
             });
             Task task_remove_node_modules = new Task(() =>
             {
-                // Удаление node-modules
                 if (localData.removeNodeModules == "true")
                 {
                     Console.WriteLine("Start process remove node modules");
@@ -206,7 +239,6 @@ namespace gitUpdateAutomation
                     }
                     Console.WriteLine("Finish process remove node modules");
                 }
-                // Удаление package-lock
                 if (localData.removePackageLock == "true")
                 {
                     string packageLockpath = localData.informIusPath + "/WebApi/package-lock.json";
@@ -219,11 +251,10 @@ namespace gitUpdateAutomation
                         Console.WriteLine($"No such file or directory {packageLockpath}");
                     }
                 }
-                // npm i 
                 if (localData.recoveryNpmPackage == "true")
                 {
                     Console.WriteLine("Start process npm i");
-                    runProcess(localData.informIusPath + "/WebApi", "/c npm i");
+                    errorHandler(localData.informIusPath + "/WebApi", "/c npm i", timeSpan).Wait();
                     Console.WriteLine("Finish process npm i");
                 }
             });
