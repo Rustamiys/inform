@@ -1,0 +1,22 @@
+{
+    "informIusPath" : "C:/Users/admin/Documents/inf/inform.Ius",
+    "nginxConfPath" : "C:/Users/admin/Documents/inf/nginx/conf",
+    "DB_BackupPath" : "C:/Users/admin/Documents/inf/DB-backup",
+    "param" : {
+        "PARAM_PORT_PREFIX" : "01",
+        "PARAM_DIST_PATH" : "as",
+        "PARAM_DATABASE" : "my_db",
+        "PARAM_VHOST" : "563"
+    },
+    "removeBinObj" : null,
+    "removeNuget" : null,
+    "removeNodeModules" : null,
+    "removePackageLock" : null,
+    "recoveryNugetPackage" : null,
+    "recoveryNpmPackage" : null,
+    "nugetExePath" : "C:/Users/admin/Documents/inf/ConsoleApp1",
+    "cachePath" : [
+        "C:/Users/admin/Documents/inf/cache-npm",
+        "C:/Users/admin/Documents/inf/cache-nuget"
+    ]
+}

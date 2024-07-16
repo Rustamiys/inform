@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace gitUpdateAutomation
 {
@@ -136,13 +136,19 @@ namespace gitUpdateAutomation
         static void Main()
         {
             string localConfPath = "C:/Users/admin/Documents/inf/localConf.json";
+//            TimeSpan timeSpan = TimeSpan.FromSeconds(5);
+            TimeSpan timeSpan = TimeSpan.FromMinutes(10);
             if (!File.Exists(localConfPath))
             {
                 Console.WriteLine($"No such file or directory {localConfPath}");
                 return;
-            }
+            }    
             string jsonString = File.ReadAllText(localConfPath);
             LocalData localData = JsonConvert.DeserializeObject<LocalData>(jsonString);
+
+
+            Console.Write($"Copy sorce database name: ");
+            string dbname = Convert.ToString(Console.ReadLine());
 
             if (localData.removeBinObj == null) { setValues("remove-bin-obj", ref localData.removeBinObj); }
             if (localData.removeNuget == null) { setValues("remove nuget cache", ref localData.removeNuget); }
@@ -152,16 +158,41 @@ namespace gitUpdateAutomation
             if (localData.recoveryNugetPackage == null) { setValues("recovery nuget pacckage", ref localData.recoveryNugetPackage); }
 
             // Копирование конфигурационных файлов WebApi на уровень выше и замена параметров
-            configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "nginx.conf", localData.param);
+            /*configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "nginx.conf", localData.param);
             configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.informIusPath + "/WebApi", "ServiceConfiguration.json", localData.param);
             configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "upstreams.conf", localData.param);
             configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "proxy-services.conf", localData.param);
 
             // Копирование экземпляров WebClient на уровень выше и замена параметров
             configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.dev.local", localData.param);
-            configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.local", localData.param);
+            configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.local", localData.param);*/
 
-            TimeSpan timeSpan = TimeSpan.FromSeconds(5);
+            Parallel.Invoke(
+                () =>
+                {
+                    configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "nginx.conf", localData.param);
+                },
+                () =>
+                {
+                    configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.informIusPath + "/WebApi", "ServiceConfiguration.json", localData.param);
+                },
+                () =>
+                {
+                    configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "upstreams.conf", localData.param);
+                },
+                () =>
+                {
+                    configurationReplacement(localData.informIusPath + "/WebApi/configuration", localData.nginxConfPath, "proxy-services.conf", localData.param);
+                },
+                () =>
+                {
+                    configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.dev.local", localData.param);
+                },
+                () =>
+                {
+                    configurationReplacement(localData.informIusPath + "/WebClient/teamplates", localData.informIusPath + "/WebClient", ".env.local", localData.param);
+                }
+                ); 
 
             Task task_kill = new Task(() => {
                 Console.WriteLine("Start process kill.ps1");
@@ -172,12 +203,11 @@ namespace gitUpdateAutomation
                 Console.WriteLine("Start process backup-and-restore.cmd");
                 errorHandler(localData.DB_BackupPath, "/c backup-and-restore.cmd", timeSpan).Wait();
                 Console.WriteLine("Finish process backup-and-restore.cmd");
-            });
-            Task task_update_db = task_backup_and_restore.ContinueWith(async t => {
                 Console.WriteLine("Start process update-db.cmd");
-                errorHandler(localData.informIusPath, $"/c update-db.cmd {localData.param.PARAM_DATABASE} -w", timeSpan).Wait();
+                errorHandler(localData.informIusPath, $"/c update-db.cmd {dbname} -w", timeSpan).Wait();
                 Console.WriteLine("Finish process update-db.cmd");
             });
+
             Task task_remove_bin_obj = new Task(() => {
                 if (localData.removeBinObj == "true")
                 {
@@ -205,9 +235,6 @@ namespace gitUpdateAutomation
                     }
                     Console.WriteLine("Finish process remove nuget");
                 }
-            });
-            Task task_restore_nuget = task_remove_nuget.ContinueWith(t =>
-            {
                 if (localData.recoveryNugetPackage == "true")
                 {
                     Console.WriteLine("Start process restore nuget");
@@ -264,8 +291,8 @@ namespace gitUpdateAutomation
             task_remove_bin_obj.Start();
             task_remove_nuget.Start();
             task_remove_node_modules.Start();
-            Task.WaitAll(task_backup_and_restore, task_update_db, task_remove_bin_obj,
-                task_remove_nuget, task_restore_nuget, task_remove_node_modules);
+            Task.WaitAll(task_backup_and_restore, task_remove_bin_obj,
+                task_remove_nuget, task_remove_node_modules);
         }
     }
 }
