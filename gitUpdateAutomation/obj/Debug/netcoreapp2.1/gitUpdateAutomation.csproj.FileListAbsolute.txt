@@ -24,3 +24,9 @@ C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\obj\Debug\netcore
 C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.dll
 C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.pdb
 C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.genruntimeconfig.cache
+C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.csproj.CopyComplete
+C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.deps.json
+C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.runtimeconfig.json
+C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.runtimeconfig.dev.json
+C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.dll
+C:\Users\admin\Documents\inf\inform\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.pdb

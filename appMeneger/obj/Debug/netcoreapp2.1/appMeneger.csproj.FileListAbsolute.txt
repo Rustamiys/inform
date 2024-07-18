@@ -1,0 +1,13 @@
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.csproj.AssemblyReference.cache
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.AssemblyInfoInputs.cache
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.AssemblyInfo.cs
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\bin\Debug\netcoreapp2.1\appMeneger.deps.json
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\bin\Debug\netcoreapp2.1\appMeneger.runtimeconfig.json
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\bin\Debug\netcoreapp2.1\appMeneger.runtimeconfig.dev.json
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\bin\Debug\netcoreapp2.1\appMeneger.dll
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\bin\Debug\netcoreapp2.1\appMeneger.pdb
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.dll
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.pdb
+C:\Users\admin\Documents\inf\inform\inform\appMeneger\obj\Debug\netcoreapp2.1\appMeneger.genruntimeconfig.cache

@@ -1,0 +1,13 @@
+C:\Users\admin\Documents\inf\inform\inform\appManager\bin\Debug\netcoreapp2.1\appManager.deps.json
+C:\Users\admin\Documents\inf\inform\inform\appManager\bin\Debug\netcoreapp2.1\appManager.runtimeconfig.json
+C:\Users\admin\Documents\inf\inform\inform\appManager\bin\Debug\netcoreapp2.1\appManager.runtimeconfig.dev.json
+C:\Users\admin\Documents\inf\inform\inform\appManager\bin\Debug\netcoreapp2.1\appManager.dll
+C:\Users\admin\Documents\inf\inform\inform\appManager\bin\Debug\netcoreapp2.1\appManager.pdb
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.csproj.AssemblyReference.cache
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.AssemblyInfoInputs.cache
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.AssemblyInfo.cs
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.dll
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.pdb
+C:\Users\admin\Documents\inf\inform\inform\appManager\obj\Debug\netcoreapp2.1\appManager.genruntimeconfig.cache
