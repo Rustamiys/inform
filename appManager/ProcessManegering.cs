@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections;
 
 namespace appManager
 {
@@ -40,14 +41,14 @@ namespace appManager
 
         private static void runProcess(string path, string command, CancellationToken token)
         {
-            command = $"-NoExit -Command cd {path};{command}";
+            command = $"-NoExit -Command cd {path};{command};Start-Sleep -Seconds 20;exit";
             ProcessStartInfo processInfo = new ProcessStartInfo
             {
                 FileName = "powershell.exe",
                 UseShellExecute = true,
                 CreateNoWindow = false,
                 WorkingDirectory = path,
-                Arguments = command
+                Arguments = command,
             };
 
             Process process = new Process();
@@ -57,6 +58,7 @@ namespace appManager
             {
                 if (process.HasExited)
                 {
+                    string errorOutput = process.StandardError.ReadToEnd();
                     return;
                 }
                 else if (token.IsCancellationRequested)

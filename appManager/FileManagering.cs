@@ -13,6 +13,7 @@ namespace appManager
             if (!File.Exists(path))
             {
                 Console.WriteLine($"No such file or directory {path}");
+                return null;
             }
             string jsonString = File.ReadAllText(path);
             return JsonConvert.DeserializeObject<LocalConfiguration>(jsonString);

@@ -13,12 +13,16 @@ namespace appManager
 
         }
         public static void runUtility() {
-            Console.Write($"Copy sorce database name: ");
-            string dbname = Convert.ToString(Console.ReadLine());
 
             string localConfPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/Git Update Auto/localConf.json";
 
             LocalConfiguration config = FileManagering.getConfig(localConfPath);
+            if (config == null)
+            {
+                return;
+            }
+            Console.Write($"Copy sorce database name: ");
+            string dbname = Convert.ToString(Console.ReadLine());
 
             config.setValuesIfNull();
             FileManagering.copyAndReplaceConfig(config);
