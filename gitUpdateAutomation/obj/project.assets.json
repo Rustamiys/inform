@@ -458,9 +458,6 @@
       "appManager/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.3"
-        },
         "compile": {
           "bin/placeholder/appManager.dll": {}
         },
@@ -992,11 +989,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\Documents\\inf\\inform\\inform\\gitUpdateAutomation\\gitUpdateAutomation.csproj",
+      "projectUniqueName": "C:\\Users\\admin\\Documents\\inf\\inform\\gitUpdateAutomation\\gitUpdateAutomation.csproj",
       "projectName": "gitUpdateAutomation",
-      "projectPath": "C:\\Users\\admin\\Documents\\inf\\inform\\inform\\gitUpdateAutomation\\gitUpdateAutomation.csproj",
+      "projectPath": "C:\\Users\\admin\\Documents\\inf\\inform\\gitUpdateAutomation\\gitUpdateAutomation.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\admin\\Documents\\inf\\inform\\inform\\gitUpdateAutomation\\obj\\",
+      "outputPath": "C:\\Users\\admin\\Documents\\inf\\inform\\gitUpdateAutomation\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1017,8 +1014,8 @@
         "netcoreapp2.1": {
           "targetAlias": "netcoreapp2.1",
           "projectReferences": {
-            "C:\\Users\\admin\\Documents\\inf\\inform\\inform\\appManager\\appManager.csproj": {
-              "projectPath": "C:\\Users\\admin\\Documents\\inf\\inform\\inform\\appManager\\appManager.csproj"
+            "C:\\Users\\admin\\Documents\\inf\\inform\\appManager\\appManager.csproj": {
+              "projectPath": "C:\\Users\\admin\\Documents\\inf\\inform\\appManager\\appManager.csproj"
             }
           }
         }

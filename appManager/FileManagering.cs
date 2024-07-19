@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
 using System.IO;
 
 namespace appManager
 {
     internal class FileManagering
     {
-        internal static LocalConfiguration getConfig(string path)
-        {
-            if (!File.Exists(path))
-            {
-                Console.WriteLine($"No such file or directory {path}");
-                return null;
-            }
-            string jsonString = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<LocalConfiguration>(jsonString);
-        }
         internal static void copyAndReplaceConfig(LocalConfiguration config)
         {
             // Копирование конфигурационных файлов WebApi на уровень выше и замена параметров

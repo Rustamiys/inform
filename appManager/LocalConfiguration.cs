@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace appManager
 {
-    internal class LocalConfiguration
+    public class LocalConfiguration
     {
         public string informIusPath;
         public string nginxConfPath;
@@ -21,25 +17,33 @@ namespace appManager
         public string[] cachePath;
         public string nugetExePath;
         public TimeSpan processWaitingTime;
+        public string dbname;
         public void setValuesIfNull()
-        {          
-            if (!this.removeBinObj.HasValue) 
-            { 
+        {
+            Console.Write($"Copy sorce database name: ");
+            this.dbname = Convert.ToString(Console.ReadLine());
+            if (!this.removeBinObj.HasValue)
+            {
                 setValues("remove-bin-obj", ref this.removeBinObj);
             }
-            if (!this.removeNuget.HasValue) {
+            if (!this.removeNuget.HasValue)
+            {
                 setValues("remove nuget cache", ref this.removeNuget);
             }
-            if (!this.removeNodeModules.HasValue) {
+            if (!this.removeNodeModules.HasValue)
+            {
                 setValues("remove node-modules", ref this.removeNodeModules);
-                    }
-            if (!this.removePackageLock.HasValue) {
+            }
+            if (!this.removePackageLock.HasValue)
+            {
                 setValues("remove package-lock", ref this.removePackageLock);
             }
-            if (!this.recoveryNpmPackage.HasValue) {
+            if (!this.recoveryNpmPackage.HasValue)
+            {
                 setValues("recovery npm package", ref this.recoveryNpmPackage);
             }
-            if (!this.recoveryNugetPackage.HasValue) {
+            if (!this.recoveryNugetPackage.HasValue)
+            {
                 setValues("recovery nuget pacckage", ref this.recoveryNugetPackage);
             }
         }
@@ -55,7 +59,7 @@ namespace appManager
             }
         }
     }
-    internal class ParameterModel
+    public class ParameterModel
     {
         public string PARAM_PORT_PREFIX;
         public string PARAM_DIST_PATH;

@@ -58,7 +58,6 @@ namespace appManager
             {
                 if (process.HasExited)
                 {
-                    string errorOutput = process.StandardError.ReadToEnd();
                     return;
                 }
                 else if (token.IsCancellationRequested)
