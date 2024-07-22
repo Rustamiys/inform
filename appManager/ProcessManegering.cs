@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Collections;
 
 namespace appManager
 {
@@ -12,15 +9,15 @@ namespace appManager
     {
         internal static async Task errorHandler(string path, string command, TimeSpan timespan)
         {
-            Console.WriteLine($"Start process {command}");
+            IusManager.logger.Information($"Start process {command}");
             try
             {
                 await runProcessWithTimeoutAsync(path, command, timespan);
-                Console.WriteLine($"Finish process {command}");
+                IusManager.logger.Information($"Finish process {command}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                IusManager.logger.Error($"Command:{command}, end with error: {ex.Message}");
             }
         }
         private static async Task runProcessWithTimeoutAsync(string path, string command, TimeSpan timespan)

@@ -51,9 +51,10 @@ namespace gitUpdateAutomation
             while (true)
             {
                 Console.Write($"Use {name} (y/n): ");
-                string ch = Convert.ToString(Console.ReadLine());
-                if (ch == "y") { param = true; return; }
-                if (ch == "n") { param = false; return; }
+                char ch = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+                if (ch == 'y') { param = true; return; }
+                if (ch == 'n') { param = false; return; }
                 Console.WriteLine("wrong input");
             }
         }

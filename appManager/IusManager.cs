@@ -1,15 +1,17 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace appManager
 {
-    public class IusManager
-    {
+    public class IusManager {
+        public static ILogger logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File("log.txt")
+            .CreateLogger();
         public static void managering(LocalConfiguration config)
         {
             ArtifactManager.taskKill(config.informIusPath + "/WebApi", config.processWaitingTime).Wait();
-
 
             Task backupResoreUpdateBd = Task.Factory.StartNew(() =>
             {
@@ -30,7 +32,7 @@ namespace appManager
                 if (config.removeNuget.Value)
                 {
                     ArtifactManager.removeNuget(config.cachePath).Wait();
-                    Console.WriteLine("All nuget cache removed");
+                    logger.Information("All nuget cache removed");
                 }
                 if (config.recoveryNugetPackage.Value)
                 {
@@ -43,19 +45,18 @@ namespace appManager
                 if (config.removeNodeModules.Value)
                 {
                     ArtifactManager.removeNodeModules(config.informIusPath + "/WebApi/node_modules").Wait();
-                    Console.WriteLine("Node modules removed");
+                    logger.Information("Node modules removed");
                 }
                 if (config.removePackageLock.Value)
                 {
                     ArtifactManager.removePackageLock(config.informIusPath + "/WebApi/package-lock.json").Wait();
-                    Console.WriteLine("Package-lock removed");
+                    logger.Information("Package-lock removed");
                 }
                 if (config.recoveryNpmPackage.Value)
                 {
                     ArtifactManager.npmRestore(config.informIusPath + "/WebApi", config.processWaitingTime).Wait();
                 }
             });
-
 
             Task.WaitAll(
                 backupResoreUpdateBd, removeBinObj,

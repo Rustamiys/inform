@@ -441,6 +441,25 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "Serilog/1.5.14": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Serilog.FullNetFx.dll": {
+            "related": ".pdb;.XML"
+          },
+          "lib/net45/Serilog.dll": {
+            "related": ".FullNetFx.pdb;.FullNetFx.XML;.pdb;.XML"
+          }
+        },
+        "runtime": {
+          "lib/net45/Serilog.FullNetFx.dll": {
+            "related": ".pdb;.XML"
+          },
+          "lib/net45/Serilog.dll": {
+            "related": ".FullNetFx.pdb;.FullNetFx.XML;.pdb;.XML"
+          }
+        }
       }
     }
   },
@@ -915,11 +934,38 @@
         "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "Serilog/1.5.14": {
+      "sha512": "i5C+/F27bliSk/Kbzh0vRElU76w+EjnoIe0WnH3olbaaoXsm3Nf5bb7UKxGJTeXJjaQ//b92+wAsdJd/8FQjGg==",
+      "type": "package",
+      "path": "serilog/1.5.14",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/Serilog.FullNetFx.XML",
+        "lib/net40/Serilog.FullNetFx.dll",
+        "lib/net40/Serilog.FullNetFx.pdb",
+        "lib/net40/Serilog.XML",
+        "lib/net40/Serilog.dll",
+        "lib/net40/Serilog.pdb",
+        "lib/net45/Serilog.FullNetFx.XML",
+        "lib/net45/Serilog.FullNetFx.dll",
+        "lib/net45/Serilog.FullNetFx.pdb",
+        "lib/net45/Serilog.XML",
+        "lib/net45/Serilog.dll",
+        "lib/net45/Serilog.pdb",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/Serilog.XML",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/Serilog.dll",
+        "lib/portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10/Serilog.pdb",
+        "serilog.1.5.14.nupkg.sha512",
+        "serilog.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "Microsoft.NETCore.App >= 2.1.0"
+      "Microsoft.NETCore.App >= 2.1.0",
+      "Serilog >= 1.5.14"
     ]
   },
   "packageFolders": {
@@ -971,6 +1017,10 @@
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
+          },
+          "Serilog": {
+            "target": "Package",
+            "version": "[1.5.14, )"
           }
         },
         "imports": [
@@ -987,5 +1037,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"Serilog 1.5.14\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \".NETCoreApp,Version=v2.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "Serilog",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.1"
+      ]
+    }
+  ]
 }

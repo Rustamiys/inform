@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
+            },
+            "Serilog": {
+              "target": "Package",
+              "version": "[1.5.14, )"
             }
           },
           "imports": [

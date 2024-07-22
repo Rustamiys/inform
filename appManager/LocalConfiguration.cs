@@ -18,46 +18,6 @@ namespace appManager
         public string nugetExePath;
         public TimeSpan processWaitingTime;
         public string dbname;
-        public void setValuesIfNull()
-        {
-            Console.Write($"Copy sorce database name: ");
-            this.dbname = Convert.ToString(Console.ReadLine());
-            if (!this.removeBinObj.HasValue)
-            {
-                setValues("remove-bin-obj", ref this.removeBinObj);
-            }
-            if (!this.removeNuget.HasValue)
-            {
-                setValues("remove nuget cache", ref this.removeNuget);
-            }
-            if (!this.removeNodeModules.HasValue)
-            {
-                setValues("remove node-modules", ref this.removeNodeModules);
-            }
-            if (!this.removePackageLock.HasValue)
-            {
-                setValues("remove package-lock", ref this.removePackageLock);
-            }
-            if (!this.recoveryNpmPackage.HasValue)
-            {
-                setValues("recovery npm package", ref this.recoveryNpmPackage);
-            }
-            if (!this.recoveryNugetPackage.HasValue)
-            {
-                setValues("recovery nuget pacckage", ref this.recoveryNugetPackage);
-            }
-        }
-        private void setValues(string name, ref bool? param)
-        {
-            while (true)
-            {
-                Console.Write($"Use {name} (y/n): ");
-                string ch = Convert.ToString(Console.ReadLine());
-                if (ch == "y") { param = true; return; }
-                if (ch == "n") { param = false; return; }
-                Console.WriteLine("wrong input");
-            }
-        }
     }
     public class ParameterModel
     {
