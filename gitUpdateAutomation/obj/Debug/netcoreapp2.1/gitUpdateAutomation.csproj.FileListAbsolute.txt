@@ -46,3 +46,4 @@ C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\
 C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.dll
 C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.pdb
 C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.csproj.CopyComplete
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\NLog.config

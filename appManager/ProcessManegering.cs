@@ -9,11 +9,11 @@ namespace appManager
     {
         internal static async Task errorHandler(string path, string command, TimeSpan timespan)
         {
-            IusManager.logger.Information($"Start process {command}");
+            IusManager.logger.Info($"Start process {command}");
             try
             {
                 await runProcessWithTimeoutAsync(path, command, timespan);
-                IusManager.logger.Information($"Finish process {command}");
+                IusManager.logger.Info($"Finish process {command}");
             }
             catch (Exception ex)
             {
@@ -46,6 +46,7 @@ namespace appManager
                 CreateNoWindow = false,
                 WorkingDirectory = path,
                 Arguments = command,
+                WindowStyle = ProcessWindowStyle.Minimized
             };
 
             Process process = new Process();

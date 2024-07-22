@@ -1,16 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Serilog;
+﻿using System.Threading.Tasks;
+using NLog;
 
 namespace appManager
 {
     public class IusManager {
-        public static ILogger logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .WriteTo.File("log.txt")
-            .CreateLogger();
+        internal static NLog.ILogger logger = LogManager.GetCurrentClassLogger();
         public static void managering(LocalConfiguration config)
         {
+
             ArtifactManager.taskKill(config.informIusPath + "/WebApi", config.processWaitingTime).Wait();
 
             Task backupResoreUpdateBd = Task.Factory.StartNew(() =>
@@ -32,7 +29,7 @@ namespace appManager
                 if (config.removeNuget.Value)
                 {
                     ArtifactManager.removeNuget(config.cachePath).Wait();
-                    logger.Information("All nuget cache removed");
+                    logger.Info("All nuget cache removed");
                 }
                 if (config.recoveryNugetPackage.Value)
                 {
@@ -45,12 +42,12 @@ namespace appManager
                 if (config.removeNodeModules.Value)
                 {
                     ArtifactManager.removeNodeModules(config.informIusPath + "/WebApi/node_modules").Wait();
-                    logger.Information("Node modules removed");
+                    logger.Info("Node modules removed");
                 }
                 if (config.removePackageLock.Value)
                 {
                     ArtifactManager.removePackageLock(config.informIusPath + "/WebApi/package-lock.json").Wait();
-                    logger.Information("Package-lock removed");
+                    logger.Info("Package-lock removed");
                 }
                 if (config.recoveryNpmPackage.Value)
                 {

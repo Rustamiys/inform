@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AOAjRenoXyXXNVF/yywI7U7EYEAbOABmBMOSQxhyUGCbY9hvLk+n53Jsu4EmTZ1Z1MtxWNpBnXxugTN43YEPDA==",
+  "dgSpecHash": "RqacpUPK7JzoAQoEn2Dx3WA+FpDz3zBqAkWxWZIV3GrHIJOfBLVAHbzZE1fM9Vras5YjUhbvfep7F2OAMMUNiQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\admin\\Documents\\inf\\inform\\gitUpdateAutomation\\gitUpdateAutomation.csproj",
   "expectedPackageFiles": [
@@ -12,18 +12,9 @@
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.targets\\2.1.0\\microsoft.netcore.targets.2.1.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\admin\\.nuget\\packages\\serilog\\1.5.14\\serilog.1.5.14.nupkg.sha512"
+    "C:\\Users\\admin\\.nuget\\packages\\nlog\\5.3.2\\nlog.5.3.2.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\nlog.config\\4.7.15\\nlog.config.4.7.15.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\nlog.schema\\4.7.15\\nlog.schema.4.7.15.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Пакет \"Serilog 1.5.14\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\", а не целевой платформы проекта \".NETCoreApp,Version=v2.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
-      "libraryId": "Serilog",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.1"
-      ]
-    }
-  ]
+  "logs": []
 }

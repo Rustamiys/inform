@@ -50,9 +50,13 @@
               "version": "[2.1.0, )",
               "autoReferenced": true
             },
-            "Serilog": {
+            "NLog": {
               "target": "Package",
-              "version": "[1.5.14, )"
+              "version": "[5.3.2, )"
+            },
+            "NLog.Config": {
+              "target": "Package",
+              "version": "[4.7.15, )"
             }
           },
           "imports": [

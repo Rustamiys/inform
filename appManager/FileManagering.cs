@@ -29,7 +29,7 @@ namespace appManager
             }
             else
             {
-                Console.WriteLine($"wrong path: {path}");
+                IusManager.logger.Warn($"wrong path: {path}");
             }
         }
         private static void replaceParameterModel(string path, ParameterModel param)
@@ -55,7 +55,7 @@ namespace appManager
             }
             else
             {
-                Console.WriteLine($"No such file or directory {path}");
+                IusManager.logger.Warn($"No such file or directory {path}");
             }
         }
         internal static void cleanFiles(DirectoryInfo folder)
@@ -74,7 +74,7 @@ namespace appManager
             }
             else
             {
-                Console.WriteLine($"No such file or directory {folder.FullName}");
+                IusManager.logger.Warn($"No such file or directory {folder.FullName}");
             }
         }
     }

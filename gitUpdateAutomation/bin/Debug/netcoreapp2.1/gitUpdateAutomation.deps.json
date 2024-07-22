@@ -23,21 +23,25 @@
           }
         }
       },
-      "Serilog/1.5.14": {
+      "NLog/5.3.2": {
         "runtime": {
-          "lib/net45/Serilog.FullNetFx.dll": {
-            "assemblyVersion": "1.5.0.0",
-            "fileVersion": "1.5.14.370"
-          },
-          "lib/net45/Serilog.dll": {
-            "assemblyVersion": "1.5.0.0",
-            "fileVersion": "1.5.14.370"
+          "lib/netstandard2.0/NLog.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.3.2.2526"
           }
         }
       },
+      "NLog.Config/4.7.15": {
+        "dependencies": {
+          "NLog": "5.3.2",
+          "NLog.Schema": "4.7.15"
+        }
+      },
+      "NLog.Schema/4.7.15": {},
       "appManager/1.0.0": {
         "dependencies": {
-          "Serilog": "1.5.14"
+          "NLog": "5.3.2",
+          "NLog.Config": "4.7.15"
         },
         "runtime": {
           "appManager.dll": {}
@@ -58,12 +62,26 @@
       "path": "newtonsoft.json/13.0.3",
       "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
     },
-    "Serilog/1.5.14": {
+    "NLog/5.3.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-i5C+/F27bliSk/Kbzh0vRElU76w+EjnoIe0WnH3olbaaoXsm3Nf5bb7UKxGJTeXJjaQ//b92+wAsdJd/8FQjGg==",
-      "path": "serilog/1.5.14",
-      "hashPath": "serilog.1.5.14.nupkg.sha512"
+      "sha512": "sha512-cQRQZuDMjSyMe9EQBnI9v55YAMMz8GAfFd6fFJ6tc/kXnG7Hze8p1I8MgvWSBG6E36wA8vSxRrlm8uSIG+SENg==",
+      "path": "nlog/5.3.2",
+      "hashPath": "nlog.5.3.2.nupkg.sha512"
+    },
+    "NLog.Config/4.7.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-njc2NvwgAzEuH609TGO4yqpokcxXFdypHwG3I8hyLYIE4pr+j4KJB4ZhsyODVwkP/n2F2V4uJ24VW4icNyJMcA==",
+      "path": "nlog.config/4.7.15",
+      "hashPath": "nlog.config.4.7.15.nupkg.sha512"
+    },
+    "NLog.Schema/4.7.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cBzca2abS5Qz8e40vIPZNWBiDAQaRY7PKWffBbazMAzvxGBM6/ZWgaAEmqHUOluhV41cuyXnHOzo485JPLeChg==",
+      "path": "nlog.schema/4.7.15",
+      "hashPath": "nlog.schema.4.7.15.nupkg.sha512"
     },
     "appManager/1.0.0": {
       "type": "project",

@@ -8,3 +8,4 @@ C:\Users\admin\Documents\inf\inform\appManager\obj\Debug\netcoreapp2.1\appManage
 C:\Users\admin\Documents\inf\inform\appManager\obj\Debug\netcoreapp2.1\appManager.csproj.CoreCompileInputs.cache
 C:\Users\admin\Documents\inf\inform\appManager\obj\Debug\netcoreapp2.1\appManager.dll
 C:\Users\admin\Documents\inf\inform\appManager\obj\Debug\netcoreapp2.1\appManager.pdb
+C:\Users\admin\Documents\inf\inform\appManager\bin\Debug\netcoreapp2.1\NLog.config
