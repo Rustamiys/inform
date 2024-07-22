@@ -17,6 +17,7 @@ namespace appManager
         public string[] cachePath;
         public string nugetExePath;
         public TimeSpan processWaitingTime;
+        public int closeWindowWaitingTime;
         public string dbname;
     }
     public class ParameterModel

@@ -7,12 +7,12 @@ namespace appManager
 {
     internal class ProcessManegering
     {
-        internal static async Task errorHandler(string path, string command, TimeSpan timespan)
+        internal static async Task errorHandler(string path, string command, TimeSpan processWaitingTime, int closeWindowTime)
         {
             IusManager.logger.Info($"Start process {command}");
             try
             {
-                await runProcessWithTimeoutAsync(path, command, timespan);
+                await runProcessWithTimeoutAsync(path, command, processWaitingTime, closeWindowTime);
                 IusManager.logger.Info($"Finish process {command}");
             }
             catch (Exception ex)
@@ -20,14 +20,14 @@ namespace appManager
                 IusManager.logger.Error($"Command:{command}, end with error: {ex.Message}");
             }
         }
-        private static async Task runProcessWithTimeoutAsync(string path, string command, TimeSpan timespan)
+        private static async Task runProcessWithTimeoutAsync(string path, string command, TimeSpan processWaitingTime, int closeWindowTime)
         {
             using (var cts = new CancellationTokenSource())
             {
-                cts.CancelAfter(timespan);
+                cts.CancelAfter(processWaitingTime);
                 try
                 {
-                    await Task.Run(() => runProcess(path, command, cts.Token), cts.Token);
+                    await Task.Run(() => runProcess(path, command, closeWindowTime, cts.Token), cts.Token);
                 }
                 catch (OperationCanceledException)
                 {
@@ -36,9 +36,9 @@ namespace appManager
             }
         }
 
-        private static void runProcess(string path, string command, CancellationToken token)
+        private static void runProcess(string path, string command, int closeWindowTime, CancellationToken token)
         {
-            command = $"-NoExit -Command cd {path};{command};Start-Sleep -Seconds 20;exit";
+            command = $"-NoExit -Command cd {path};{command};Start-Sleep -Seconds {closeWindowTime};exit";
             ProcessStartInfo processInfo = new ProcessStartInfo
             {
                 FileName = "powershell.exe",

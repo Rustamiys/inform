@@ -6,21 +6,21 @@ namespace appManager
 {
     internal class ArtifactManager
     {
-        public static Task taskKill(string path, TimeSpan waitingtTime)
+        public static Task taskKill(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "./kill.ps1", waitingtTime);
+            return ProcessManegering.errorHandler(path, "./kill.ps1", waitingtTime, processWaitingTime);
         }
-        public static Task backupAndRestore(string path, TimeSpan waitingtTime)
+        public static Task backupAndRestore(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "./backup-and-restore.cmd", waitingtTime);
+            return ProcessManegering.errorHandler(path, "./backup-and-restore.cmd", waitingtTime, processWaitingTime);
         }
-        public static Task updateDB(string path, string dbname, TimeSpan waitingtTime)
+        public static Task updateDB(string path, string dbname, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, $"./update-db.cmd {dbname} -w", waitingtTime);
+            return ProcessManegering.errorHandler(path, $"./update-db.cmd {dbname} -w", waitingtTime, processWaitingTime);
         }
-        public static Task removeBinObj(string path, TimeSpan waitingtTime)
+        public static Task removeBinObj(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "./remove-bin-obj.ps1", waitingtTime);
+            return ProcessManegering.errorHandler(path, "./remove-bin-obj.ps1", waitingtTime, processWaitingTime);
         }
         public static Task removeNuget(string[] cache)
         {           
@@ -33,9 +33,9 @@ namespace appManager
                 }
             });
         }
-        public static Task restoreNuget(string EXEpath, string path, TimeSpan waitingtTime)
+        public static Task restoreNuget(string EXEpath, string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(EXEpath, $"set NUGET_PACKAGES={path}; ./nuget restore", waitingtTime);
+            return ProcessManegering.errorHandler(EXEpath, $"set NUGET_PACKAGES={path}; ./nuget restore", waitingtTime, processWaitingTime);
 
         }
         public static Task removeNodeModules(string path)
@@ -47,9 +47,9 @@ namespace appManager
         {
             return Task.Factory.StartNew(() => FileManagering.cleanFiles(path));
         }
-        public static Task npmRestore(string path, TimeSpan waitingtTime)
+        public static Task npmRestore(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "npm i", waitingtTime);
+            return ProcessManegering.errorHandler(path, "npm i", waitingtTime, processWaitingTime);
         }
     }
 }

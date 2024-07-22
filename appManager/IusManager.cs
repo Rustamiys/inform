@@ -8,19 +8,19 @@ namespace appManager
         public static void managering(LocalConfiguration config)
         {
 
-            ArtifactManager.taskKill(config.informIusPath + "/WebApi", config.processWaitingTime).Wait();
+            ArtifactManager.taskKill(config.informIusPath + "/WebApi", config.processWaitingTime, config.closeWindowWaitingTime).Wait();
 
             Task backupResoreUpdateBd = Task.Factory.StartNew(() =>
             {
-                ArtifactManager.backupAndRestore(config.DB_BackupPath, config.processWaitingTime).Wait();
-                ArtifactManager.updateDB(config.informIusPath, config.dbname, config.processWaitingTime).Wait();
+                ArtifactManager.backupAndRestore(config.DB_BackupPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+                ArtifactManager.updateDB(config.informIusPath, config.dbname, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
             });
 
             Task removeBinObj = Task.Factory.StartNew(() =>
             {
                 if (config.removeBinObj.Value)
                 {
-                    ArtifactManager.removeBinObj(config.informIusPath, config.processWaitingTime).Wait();
+                    ArtifactManager.removeBinObj(config.informIusPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
                 }
             });
 
@@ -33,7 +33,7 @@ namespace appManager
                 }
                 if (config.recoveryNugetPackage.Value)
                 {
-                    ArtifactManager.restoreNuget(config.nugetExePath, config.informIusPath, config.processWaitingTime).Wait();
+                    ArtifactManager.restoreNuget(config.nugetExePath, config.informIusPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
                 }
             });
 
@@ -51,7 +51,7 @@ namespace appManager
                 }
                 if (config.recoveryNpmPackage.Value)
                 {
-                    ArtifactManager.npmRestore(config.informIusPath + "/WebApi", config.processWaitingTime).Wait();
+                    ArtifactManager.npmRestore(config.informIusPath + "/WebApi", config.processWaitingTime, config.closeWindowWaitingTime).Wait();
                 }
             });
 

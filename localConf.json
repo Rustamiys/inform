@@ -19,5 +19,6 @@
         "C:/Users/admin/Documents/inf/cache-npm",
         "C:/Users/admin/Documents/inf/cache-nuget"
     ],
-    "processWaitingTime" : "00:10:00"
+    "processWaitingTime" : "00:10:00",
+    "closeWindowWaitingTime" : "20"
 }
