@@ -4,23 +4,24 @@ using NLog;
 namespace appManager
 {
     public class IusManager {
-        internal static NLog.ILogger logger = LogManager.GetCurrentClassLogger();
-        public static void managering(LocalConfiguration config)
+        private NLog.ILogger logger = LogManager.GetCurrentClassLogger();
+        private ArtifactManager artifactmanager = new ArtifactManager();
+        public void managering(LocalConfiguration config)
         {
 
-            ArtifactManager.taskKill(config.informIusPath + "/WebApi", config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+            artifactmanager.taskKill(config.informIusPath + "/WebApi", config.processWaitingTime, config.closeWindowWaitingTime).Wait();
 
             Task backupResoreUpdateBd = Task.Factory.StartNew(() =>
             {
-                ArtifactManager.backupAndRestore(config.DB_BackupPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
-                ArtifactManager.updateDB(config.informIusPath, config.dbname, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+                artifactmanager.backupAndRestore(config.DB_BackupPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+                artifactmanager.updateDB(config.informIusPath, config.dbname, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
             });
 
             Task removeBinObj = Task.Factory.StartNew(() =>
             {
                 if (config.removeBinObj.Value)
                 {
-                    ArtifactManager.removeBinObj(config.informIusPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+                    artifactmanager.removeBinObj(config.informIusPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
                 }
             });
 
@@ -28,12 +29,13 @@ namespace appManager
             {
                 if (config.removeNuget.Value)
                 {
-                    ArtifactManager.removeNuget(config.cachePath).Wait();
+                    artifactmanager.removeNuget(config.cachePath).Wait();
                     logger.Info("All nuget cache removed");
                 }
                 if (config.recoveryNugetPackage.Value)
                 {
-                    ArtifactManager.restoreNuget(config.nugetExePath, config.informIusPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+                    artifactmanager.restoreNuget(config.nugetExePath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+                    //artifactmanager.restoreNuget(config.nugetExePath, config.informIusPath, config.processWaitingTime, config.closeWindowWaitingTime).Wait();
                 }
             });
 
@@ -41,17 +43,17 @@ namespace appManager
             {
                 if (config.removeNodeModules.Value)
                 {
-                    ArtifactManager.removeNodeModules(config.informIusPath + "/WebApi/node_modules").Wait();
+                    artifactmanager.removeNodeModules(config.informIusPath + "/WebApi/node_modules").Wait();
                     logger.Info("Node modules removed");
                 }
                 if (config.removePackageLock.Value)
                 {
-                    ArtifactManager.removePackageLock(config.informIusPath + "/WebApi/package-lock.json").Wait();
+                    artifactmanager.removePackageLock(config.informIusPath + "/WebApi/package-lock.json").Wait();
                     logger.Info("Package-lock removed");
                 }
                 if (config.recoveryNpmPackage.Value)
                 {
-                    ArtifactManager.npmRestore(config.informIusPath + "/WebApi", config.processWaitingTime, config.closeWindowWaitingTime).Wait();
+                    artifactmanager.npmRestore(config.informIusPath + "/WebApi", config.processWaitingTime, config.closeWindowWaitingTime).Wait();
                 }
             });
 

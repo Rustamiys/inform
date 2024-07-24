@@ -2,25 +2,27 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
+using NLog;
 
 namespace appManager
 {
     internal class ProcessManegering
     {
-        internal static async Task errorHandler(string path, string command, TimeSpan processWaitingTime, int closeWindowTime)
+        private NLog.ILogger logger = LogManager.GetCurrentClassLogger();
+        internal async Task errorHandler(string path, string command, TimeSpan processWaitingTime, int closeWindowTime)
         {
-            IusManager.logger.Info($"Start process {command}");
+            logger.Info($"Start process {command}");
             try
             {
                 await runProcessWithTimeoutAsync(path, command, processWaitingTime, closeWindowTime);
-                IusManager.logger.Info($"Finish process {command}");
+                logger.Info($"Finish process {command}");
             }
             catch (Exception ex)
             {
-                IusManager.logger.Error($"Command:{command}, end with error: {ex.Message}");
+                logger.Error($"Command:{command}, end with error: {ex.Message}");
             }
         }
-        private static async Task runProcessWithTimeoutAsync(string path, string command, TimeSpan processWaitingTime, int closeWindowTime)
+        private async Task runProcessWithTimeoutAsync(string path, string command, TimeSpan processWaitingTime, int closeWindowTime)
         {
             using (var cts = new CancellationTokenSource())
             {
@@ -36,7 +38,7 @@ namespace appManager
             }
         }
 
-        private static void runProcess(string path, string command, int closeWindowTime, CancellationToken token)
+        private void runProcess(string path, string command, int closeWindowTime, CancellationToken token)
         {
             command = $"-NoExit -Command cd {path};{command};Start-Sleep -Seconds {closeWindowTime};exit";
             ProcessStartInfo processInfo = new ProcessStartInfo

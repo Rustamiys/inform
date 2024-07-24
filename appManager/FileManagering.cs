@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NLog;
 using System.IO;
 
 namespace appManager
 {
     internal class FileManagering
     {
-        internal static void copyAndReplaceConfig(LocalConfiguration config)
+        private NLog.ILogger logger = LogManager.GetCurrentClassLogger();
+        internal void copyAndReplaceConfig(LocalConfiguration config)
         {
             // Копирование конфигурационных файлов WebApi на уровень выше и замена параметров
             configurationReplacement(config.informIusPath + "/WebApi/configuration", config.nginxConfPath, "nginx.conf", config.param);
@@ -17,7 +18,7 @@ namespace appManager
             configurationReplacement(config.informIusPath + "/WebClient/teamplates", config.informIusPath + "/WebClient", ".env.dev.local", config.param);
             configurationReplacement(config.informIusPath + "/WebClient/teamplates", config.informIusPath + "/WebClient", ".env.local", config.param);
         }
-        private static void configurationReplacement(string path, string pathMove, string filename, ParameterModel param)
+        private void configurationReplacement(string path, string pathMove, string filename, ParameterModel param)
         {
             path += "/" + filename;
             pathMove += "/" + filename;
@@ -29,10 +30,10 @@ namespace appManager
             }
             else
             {
-                IusManager.logger.Warn($"wrong path: {path}");
+                logger.Warn($"wrong path: {path}");
             }
         }
-        private static void replaceParameterModel(string path, ParameterModel param)
+        private void replaceParameterModel(string path, ParameterModel param)
         {
             StreamReader reader = new StreamReader(path);
             string content = reader.ReadToEnd();
@@ -47,7 +48,7 @@ namespace appManager
             writer.Write(content);
             writer.Close();
         }
-        internal static void cleanFiles(string path)
+        internal void cleanFiles(string path)
         {
             if (File.Exists(path))
             {
@@ -55,10 +56,10 @@ namespace appManager
             }
             else
             {
-                IusManager.logger.Warn($"No such file or directory {path}");
+                logger.Warn($"No such file or directory {path}");
             }
         }
-        internal static void cleanFiles(DirectoryInfo folder)
+        internal void cleanFiles(DirectoryInfo folder)
         {
             if (folder.Exists)
             {
@@ -74,7 +75,7 @@ namespace appManager
             }
             else
             {
-                IusManager.logger.Warn($"No such file or directory {folder.FullName}");
+                logger.Warn($"No such file or directory {folder.FullName}");
             }
         }
     }

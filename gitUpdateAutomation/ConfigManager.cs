@@ -7,7 +7,7 @@ namespace gitUpdateAutomation
 {
     internal class ConfigManager
     {
-        internal static LocalConfiguration getConfig(string path)
+        internal LocalConfiguration getConfig(string path)
         {
             if (!File.Exists(path))
             {
@@ -17,7 +17,7 @@ namespace gitUpdateAutomation
             string jsonString = File.ReadAllText(path);
             return JsonConvert.DeserializeObject<LocalConfiguration>(jsonString);
         }
-        internal static void setValuesIfNull(ref LocalConfiguration config)
+        internal void setValuesIfNull(ref LocalConfiguration config)
         {
             Console.Write($"Copy sorce database name: ");
             config.dbname = Convert.ToString(Console.ReadLine());
@@ -46,7 +46,7 @@ namespace gitUpdateAutomation
                 setValues("recovery nuget pacckage", ref config.recoveryNugetPackage);
             }
         }
-        private static void setValues(string name, ref bool? param)
+        private void setValues(string name, ref bool? param)
         {
             while (true)
             {

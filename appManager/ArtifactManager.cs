@@ -6,50 +6,55 @@ namespace appManager
 {
     internal class ArtifactManager
     {
-        public static Task taskKill(string path, TimeSpan waitingtTime, int processWaitingTime)
+        private ProcessManegering processManager = new ProcessManegering();
+        private FileManagering fileManager = new FileManagering();
+        internal Task taskKill(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "./kill.ps1", waitingtTime, processWaitingTime);
+            return processManager.errorHandler(path, "./kill.ps1", waitingtTime, processWaitingTime);
         }
-        public static Task backupAndRestore(string path, TimeSpan waitingtTime, int processWaitingTime)
+        internal Task backupAndRestore(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "./backup-and-restore.cmd", waitingtTime, processWaitingTime);
+            return processManager.errorHandler(path, "./backup-and-restore.cmd", waitingtTime, processWaitingTime);
         }
-        public static Task updateDB(string path, string dbname, TimeSpan waitingtTime, int processWaitingTime)
+        internal Task updateDB(string path, string dbname, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, $"./update-db.cmd {dbname} -w", waitingtTime, processWaitingTime);
+            return processManager.errorHandler(path, $"./update-db.cmd {dbname} -w", waitingtTime, processWaitingTime);
         }
-        public static Task removeBinObj(string path, TimeSpan waitingtTime, int processWaitingTime)
+        internal Task removeBinObj(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "./remove-bin-obj.ps1", waitingtTime, processWaitingTime);
+            return processManager.errorHandler(path, "./remove-bin-obj.ps1", waitingtTime, processWaitingTime);
         }
-        public static Task removeNuget(string[] cache)
+        internal Task removeNuget(string[] cache)
         {           
             return Task.Factory.StartNew(() =>
             {
                 foreach (string path in cache)
                 {
                     DirectoryInfo folder = new DirectoryInfo(path);
-                    FileManagering.cleanFiles(folder);
+                    fileManager.cleanFiles(folder);
                 }
             });
         }
-        public static Task restoreNuget(string EXEpath, string path, TimeSpan waitingtTime, int processWaitingTime)
+//        internal Task restoreNuget(string EXEpath, string path, TimeSpan waitingtTime, int processWaitingTime)
+        internal Task restoreNuget(string EXEpath, TimeSpan waitingtTime, int processWaitingTime)
+
         {
-            return ProcessManegering.errorHandler(EXEpath, $"set NUGET_PACKAGES={path}; ./nuget restore", waitingtTime, processWaitingTime);
+            return processManager.errorHandler(EXEpath, "./nuget restore", waitingtTime, processWaitingTime);
+            //return processManager.errorHandler(EXEpath, $"set NUGET_PACKAGES={path}; ./nuget restore", waitingtTime, processWaitingTime);
 
         }
-        public static Task removeNodeModules(string path)
+        internal Task removeNodeModules(string path)
         {
             DirectoryInfo folder = new DirectoryInfo(path);
-            return Task.Factory.StartNew(() => FileManagering.cleanFiles(folder));
+            return Task.Factory.StartNew(() => fileManager.cleanFiles(folder));
         }
-        public static Task removePackageLock(string path)
+        internal Task removePackageLock(string path)
         {
-            return Task.Factory.StartNew(() => FileManagering.cleanFiles(path));
+            return Task.Factory.StartNew(() => fileManager.cleanFiles(path));
         }
-        public static Task npmRestore(string path, TimeSpan waitingtTime, int processWaitingTime)
+        internal Task npmRestore(string path, TimeSpan waitingtTime, int processWaitingTime)
         {
-            return ProcessManegering.errorHandler(path, "npm i", waitingtTime, processWaitingTime);
+            return processManager.errorHandler(path, "npm i", waitingtTime, processWaitingTime);
         }
     }
 }
