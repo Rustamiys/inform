@@ -9,21 +9,21 @@ namespace appManager
     {
         private ProcessManager processManager = new ProcessManager();
         private FileManager fileManager = new FileManager();
-        internal void taskKill(string path)
+        internal void taskKill(string path, TimeSpan waitingTime)
         {
-            processManager.runProcess(path, "powershell.exe", "./kill.ps1");
+            processManager.runProcess(path, "powershell.exe", "./kill.ps1", waitingTime);
         }
-        internal void backupAndRestore(string path)
+        internal void backupAndRestore(string path, TimeSpan waitingTime)
         {
-            processManager.tryRunProcess(path, "backup-and-restore.cmd", "");
+            processManager.tryRunProcess(path, "backup-and-restore.cmd", "", waitingTime);
         }
-        internal void updateDB(string path, string dbname)
+        internal void updateDB(string path, string dbname, TimeSpan waitingTime)
         {
-            processManager.runProcess(path, "update-db.cmd", $"{dbname} -w");
+            processManager.runProcess(path, "update-db.cmd", $"{dbname} -w", waitingTime);
         }
-        internal void removeBinObj(string path)
+        internal void removeBinObj(string path, TimeSpan waitingTime)
         {
-            processManager.runProcess(path, "powershell.exe", "./remove-bin-obj.ps1");
+            processManager.runProcess(path, "powershell.exe", "./remove-bin-obj.ps1", waitingTime);
         }
         internal void removeNuget(string[] cache)
         {                       
@@ -33,9 +33,9 @@ namespace appManager
                 fileManager.cleanFiles(folder);
             };
         }
-        internal void restoreNuget(string path)
+        internal void restoreNuget(string path, TimeSpan waitingTime)
         {
-            processManager.runProcess(path, "nuget", "restore");
+            processManager.runProcess(path, "nuget", "restore", waitingTime);
         }
         internal void removeNodeModules(string path)
         {
@@ -46,9 +46,9 @@ namespace appManager
         {
             fileManager.cleanFiles(path);
         }
-        internal void npmRestore(string path)
+        internal void npmRestore(string path, TimeSpan waitingTime)
         {
-            processManager.runProcess(path, "npm", "i");
+            processManager.runProcess(path, "npm", "i", waitingTime);
         }
     }
 }

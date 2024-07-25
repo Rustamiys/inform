@@ -13,21 +13,21 @@ namespace appManager
             Constants.combineAllPath(config.informIusPath);
             FileManager.copyAndReplaceConfig(config.nginxConfPath, config.param);
             var taskKill = Task.Factory.StartNew(() =>
-            TaskManager.taskKill(Constants.webApi)
+            TaskManager.taskKill(Constants.webApi, config.processWaitingTime)
             );
             taskKill.Wait();
 
             var backupResoreUpdateBd = Task.Factory.StartNew(() =>
             {
-                TaskManager.backupAndRestore(config.DB_BackupPath);
-                TaskManager.updateDB(config.informIusPath, config.dbname);
+                TaskManager.backupAndRestore(config.DB_BackupPath, config.processWaitingTime);
+                TaskManager.updateDB(config.informIusPath, config.dbname, config.processWaitingTime);
             });
 
             var removeBinObj = Task.Factory.StartNew(() =>
             {
                 if (config.removeBinObj.Value)
                 {
-                    TaskManager.removeBinObj(config.informIusPath);
+                    TaskManager.removeBinObj(config.informIusPath, config.processWaitingTime);
                 }
             });
 
@@ -40,7 +40,7 @@ namespace appManager
                 }
                 if (config.recoveryNugetPackage.Value)
                 {
-                    TaskManager.restoreNuget(config.nugetExePath);
+                    TaskManager.restoreNuget(config.nugetExePath, config.processWaitingTime);
                 }
             });
 
@@ -58,7 +58,7 @@ namespace appManager
                 }
                 if (config.recoveryNpmPackage.Value)
                 {
-                    TaskManager.npmRestore(Constants.webApi);
+                    TaskManager.npmRestore(Constants.webApi, config.processWaitingTime);
                 }
             });
 

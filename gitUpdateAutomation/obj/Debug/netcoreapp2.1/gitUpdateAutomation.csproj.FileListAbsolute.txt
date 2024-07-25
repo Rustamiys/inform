@@ -1,0 +1,17 @@
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\NLog.config
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\gitUpdateAutomation.deps.json
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\gitUpdateAutomation.runtimeconfig.json
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\gitUpdateAutomation.runtimeconfig.dev.json
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\gitUpdateAutomation.dll
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\gitUpdateAutomation.pdb
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.dll
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\bin\Debug\netcoreapp2.1\appManager.pdb
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.csproj.AssemblyReference.cache
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.AssemblyInfoInputs.cache
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.AssemblyInfo.cs
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.csproj.CopyComplete
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.dll
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.pdb
+C:\Users\admin\Documents\inf\inform\gitUpdateAutomation\obj\Debug\netcoreapp2.1\gitUpdateAutomation.genruntimeconfig.cache
