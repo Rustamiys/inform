@@ -2,6 +2,9 @@
 
 namespace appManager
 {
+    /// <summary>
+    /// класс конфигурации, в котором находятся все свойства для работы утилиты
+    /// </summary>
     public class LocalConfiguration
     {
         public string informIusPath;
@@ -17,9 +20,11 @@ namespace appManager
         public string[] cachePath;
         public string nugetExePath;
         public TimeSpan processWaitingTime;
-        public int closeWindowWaitingTime;
         public string dbname;
     }
+    /// <summary>
+    /// класс модели параметров, в котором находятся все шаблоны параметров,которые нужно менять в файлах
+    /// </summary>
     public class ParameterModel
     {
         public string PARAM_PORT_PREFIX;

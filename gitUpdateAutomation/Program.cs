@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Reflection.Metadata;
 using appManager;
+
 namespace gitUpdateAutomation
 {
     internal class Program
@@ -18,7 +18,7 @@ namespace gitUpdateAutomation
                 return;
             }
             configManager.setValuesIfNull(ref config);
-            iusManager.managering(config);
+            iusManager.utility_core(config);
         }
     }
 }

@@ -4,12 +4,19 @@ using System.IO;
 
 namespace appManager
 {
+    /// <summary>
+    /// файловый менеджер, отвечающий за работу с файлами (удаление, копирование, перенос, замена параметров)
+    /// </summary>
     internal class FileManager
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
+        /// <summary>
+        /// Копирование конфигурационных файлов и замена в них параметров
+        /// </summary>
+        /// <param name="nginxConfPath"></param>
+        /// <param name="param"></param>
         internal void copyAndReplaceConfig(string nginxConfPath, ParameterModel param)
         {
-            // Копирование конфигурационных файлов WebApi на уровень выше и замена параметров
             configurationReplacement(Constants.configuration, nginxConfPath, Constants.nginx, param);
             configurationReplacement(Constants.configuration, Constants.webApi, Constants.ServiceConfiguration, param);
             configurationReplacement(Constants.configuration, nginxConfPath, Constants.upstreams, param);
@@ -19,6 +26,13 @@ namespace appManager
             configurationReplacement(Constants.templates, Constants.webClient, Constants.envDevLocal, param);
             configurationReplacement(Constants.templates, Constants.webClient, Constants.envLocal, param);
         }
+        /// <summary>
+        /// Копирование из path в pathMove файла filename и замена в нем шаблонов параметров на значения param 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="pathMove"></param>
+        /// <param name="filename"></param>
+        /// <param name="param"></param>
         private void configurationReplacement(string path, string pathMove, string filename, ParameterModel param)
         {
             path = Path.Combine(path, filename);
@@ -34,6 +48,11 @@ namespace appManager
                 _logger.Warn($"wrong path: {path}");
             }
         }
+        /// <summary>
+        /// Меняет шаблоны параметров в файле на значения param
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="param"></param>
         private void replaceParameterModel(string path, ParameterModel param)
         {
             StreamReader reader = new StreamReader(path);
@@ -49,6 +68,10 @@ namespace appManager
             writer.Write(content);
             writer.Close();
         }
+        /// <summary>
+        /// Удаляет файл
+        /// </summary>
+        /// <param name="path"></param>
         internal void cleanFiles(string path)
         {
             if (File.Exists(path))
@@ -60,6 +83,10 @@ namespace appManager
                 _logger.Warn($"No such file or directory {path}");
             }
         }
+        /// <summary>
+        /// Удаляет каталог
+        /// </summary>
+        /// <param name="folder"></param>
         internal void cleanFiles(DirectoryInfo folder)
         {
             if (folder.Exists)

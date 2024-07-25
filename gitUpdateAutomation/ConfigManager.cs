@@ -5,8 +5,16 @@ using appManager;
 
 namespace gitUpdateAutomation
 {
+    /// <summary>
+    /// Класс менеджера конфигураций, отвечающий за считывание конфигурационного файла и его заполнение
+    /// </summary>
     internal class ConfigManager
     {
+        /// <summary>
+        /// Считывает LocalConfiguration из path 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         internal LocalConfiguration getConfig(string path)
         {
             if (!File.Exists(path))
@@ -17,6 +25,10 @@ namespace gitUpdateAutomation
             var jsonString = File.ReadAllText(path);
             return JsonConvert.DeserializeObject<LocalConfiguration>(jsonString);
         }
+        /// <summary>
+        /// Заполнение значений конфигурационного файла, если указан null
+        /// </summary>
+        /// <param name="config"></param>
         internal void setValuesIfNull(ref LocalConfiguration config)
         {
             Console.Write($"Copy sorce database name: ");
@@ -46,6 +58,11 @@ namespace gitUpdateAutomation
                 setValues("recovery nuget pacckage", ref config.recoveryNugetPackage);
             }
         }
+        /// <summary>
+        /// Заполняет значения параметра с консоли
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="param"></param>
         private void setValues(string name, ref bool? param)
         {
             while (true)
@@ -53,8 +70,8 @@ namespace gitUpdateAutomation
                 Console.Write($"Use {name} (y/n): ");
                 char ch = Console.ReadKey().KeyChar;
                 Console.WriteLine();
-                if (ch == 'y') { param = true; return; }
-                if (ch == 'n') { param = false; return; }
+                if (ch == 'y' || ch == 'Y') { param = true; return; }
+                if (ch == 'n' || ch == 'N') { param = false; return; }
                 Console.WriteLine("wrong input");
             }
         }
