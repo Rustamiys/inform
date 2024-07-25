@@ -1,35 +1,36 @@
 ﻿using System.Threading.Tasks;
 using NLog;
 
-namespace appManager
+namespace core
 {
     /// <summary>
     /// ИУС менеджер, в котором содержится логика исполнения утилиты
     /// </summary>
     public class IusManager {        
         private ILogger _logger = LogManager.GetCurrentClassLogger();
-        private TaskManager _taskManager = new TaskManager();
+        private DataBaseManager _DataBaseManager = new DataBaseManager();
         private FileManager _fileManager = new FileManager();
+        private ArtifactManager _ArtifactManager = new ArtifactManager();
+        private NpmManager _NpmManager = new NpmManager();
+        private NugetManager _NugetManager = new NugetManager();
         public void utility_core(LocalConfiguration config)
         {
             Constants.combineAllPath(config.informIusPath);
             _fileManager.copyAndReplaceConfig(config.nginxConfPath, config.param);
-            var taskKill = Task.Factory.StartNew(() =>
-            _taskManager.taskKill(Constants.webApi, config.processWaitingTime)
-            );
-            taskKill.Wait();
+
+            _ArtifactManager.taskKill(Constants.webApi, config.processWaitingTime);
 
             var backupResoreUpdateBd = Task.Factory.StartNew(() =>
             {
-                _taskManager.backupAndRestore(config.DB_BackupPath, config.processWaitingTime);
-                _taskManager.updateDB(config.informIusPath, config.dbname, config.processWaitingTime);
+                _DataBaseManager.backupAndRestore(config.DB_BackupPath, config.processWaitingTime);
+                _DataBaseManager.updateDB(config.informIusPath, config.dbname, config.processWaitingTime);
             });
 
             var removeBinObj = Task.Factory.StartNew(() =>
             {
                 if (config.removeBinObj.Value)
                 {
-                    _taskManager.removeBinObj(config.informIusPath, config.processWaitingTime);
+                    _ArtifactManager.removeBinObj(config.informIusPath, config.processWaitingTime);
                 }
             });
 
@@ -37,12 +38,12 @@ namespace appManager
             {
                 if (config.removeNuget.Value)
                 {
-                    _taskManager.removeNuget(config.cachePath);   
+                    _ArtifactManager.removeNuget(config.cachePath);   
                     _logger.Info("All nuget cache removed");
                 }
                 if (config.recoveryNugetPackage.Value)
                 {
-                    _taskManager.restoreNuget(config.nugetExePath, config.processWaitingTime);
+                    _NugetManager.restoreNuget(config.nugetExePath, config.processWaitingTime);
                 }
             });
 
@@ -50,17 +51,17 @@ namespace appManager
             {
                 if (config.removeNodeModules.Value)
                 {
-                    _taskManager.removeNodeModules(Constants.nodeModules);
+                    _NpmManager.removeNodeModules(Constants.nodeModules);
                     _logger.Info("Node modules removed");
                 }
                 if (config.removePackageLock.Value)
                 {
-                    _taskManager.removePackageLock(Constants.packageLock);
+                    _NpmManager.removePackageLock(Constants.packageLock);
                     _logger.Info("Package-lock removed");
                 }
                 if (config.recoveryNpmPackage.Value)
                 {
-                    _taskManager.npmRestore(Constants.webApi, config.processWaitingTime);
+                    _NpmManager.npmRestore(Constants.webApi, config.processWaitingTime);
                 }
             });
 

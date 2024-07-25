@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace appManager
+namespace core
 {
     /// <summary>
     /// класс конфигурации, в котором находятся все свойства для работы утилиты

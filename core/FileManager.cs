@@ -2,7 +2,7 @@
 using System.IO;
 
 
-namespace appManager
+namespace core
 {
     /// <summary>
     /// файловый менеджер, отвечающий за работу с файлами (удаление, копирование, перенос, замена параметров)

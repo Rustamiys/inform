@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using appManager;
+using core;
 
 namespace gitUpdateAutomation
 {

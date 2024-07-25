@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-
 using NLog;
 
-namespace appManager
+namespace core
 {
     /// <summary>
     /// Класс управления процессами (запуск/остановка процессов, отлов ошибок)
