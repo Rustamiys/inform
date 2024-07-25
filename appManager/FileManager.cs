@@ -1,27 +1,28 @@
 ﻿using NLog;
 using System.IO;
 
+
 namespace appManager
 {
-    internal class FileManagering
+    internal class FileManager
     {
-        private NLog.ILogger logger = LogManager.GetCurrentClassLogger();
-        internal void copyAndReplaceConfig(LocalConfiguration config)
+        private ILogger _logger = LogManager.GetCurrentClassLogger();
+        internal void copyAndReplaceConfig(string nginxConfPath, ParameterModel param)
         {
             // Копирование конфигурационных файлов WebApi на уровень выше и замена параметров
-            configurationReplacement(config.informIusPath + "/WebApi/configuration", config.nginxConfPath, "nginx.conf", config.param);
-            configurationReplacement(config.informIusPath + "/WebApi/configuration", config.informIusPath + "/WebApi", "ServiceConfiguration.json", config.param);
-            configurationReplacement(config.informIusPath + "/WebApi/configuration", config.nginxConfPath, "upstreams.conf", config.param);
-            configurationReplacement(config.informIusPath + "/WebApi/configuration", config.nginxConfPath, "proxy-services.conf", config.param);
+            configurationReplacement(Constants.configuration, nginxConfPath, Constants.nginx, param);
+            configurationReplacement(Constants.configuration, Constants.webApi, Constants.ServiceConfiguration, param);
+            configurationReplacement(Constants.configuration, nginxConfPath, Constants.upstreams, param);
+            configurationReplacement(Constants.configuration, nginxConfPath, Constants.proxyServices, param);
 
             // Копирование экземпляров WebClient на уровень выше и замена параметров
-            configurationReplacement(config.informIusPath + "/WebClient/teamplates", config.informIusPath + "/WebClient", ".env.dev.local", config.param);
-            configurationReplacement(config.informIusPath + "/WebClient/teamplates", config.informIusPath + "/WebClient", ".env.local", config.param);
+            configurationReplacement(Constants.templates, Constants.webClient, Constants.envDevLocal, param);
+            configurationReplacement(Constants.templates, Constants.webClient, Constants.envLocal, param);
         }
         private void configurationReplacement(string path, string pathMove, string filename, ParameterModel param)
         {
-            path += "/" + filename;
-            pathMove += "/" + filename;
+            path = Path.Combine(path, filename);
+            pathMove = Path.Combine(pathMove, filename);
             FileInfo fileInf = new FileInfo(path);
             if (fileInf.Exists)
             {
@@ -30,7 +31,7 @@ namespace appManager
             }
             else
             {
-                logger.Warn($"wrong path: {path}");
+                _logger.Warn($"wrong path: {path}");
             }
         }
         private void replaceParameterModel(string path, ParameterModel param)
@@ -56,7 +57,7 @@ namespace appManager
             }
             else
             {
-                logger.Warn($"No such file or directory {path}");
+                _logger.Warn($"No such file or directory {path}");
             }
         }
         internal void cleanFiles(DirectoryInfo folder)
@@ -75,7 +76,7 @@ namespace appManager
             }
             else
             {
-                logger.Warn($"No such file or directory {folder.FullName}");
+                _logger.Warn($"No such file or directory {folder.FullName}");
             }
         }
     }

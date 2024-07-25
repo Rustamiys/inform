@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\appManager\appManager.csproj" />
+	  <ProjectReference Include="..\appManager\appManager.csproj" />
   </ItemGroup>
+
 
 </Project>
