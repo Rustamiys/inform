@@ -21,7 +21,7 @@ namespace core
         {
             try
             {
-                runProcess(workinDirectory, fileName, command, waitingTime);
+                RunProcess(workinDirectory, fileName, command, waitingTime);
             }
             catch (Exception exc)
             {
@@ -35,7 +35,7 @@ namespace core
         /// <param name="fileName"></param>
         /// <param name="command"></param>
         /// <param name="waitingTime"></param>
-        internal void runProcess(string workingDirectory, string fileName, string command, TimeSpan waitingTime)
+        internal void RunProcess(string workingDirectory, string fileName, string command, TimeSpan waitingTime)
         {
             ProcessStartInfo processInfo = new ProcessStartInfo
             {

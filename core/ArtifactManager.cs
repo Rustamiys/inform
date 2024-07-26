@@ -3,6 +3,9 @@ using System;
 
 namespace core
 {
+    /// <summary>
+    /// Класс менеджера артефактов
+    /// </summary>
     internal class ArtifactManager
     {
         private ProcessManager _ProcessManager = new ProcessManager();
@@ -14,7 +17,7 @@ namespace core
         /// <param name="waitingTime"></param>
         internal void taskKill(string path, TimeSpan waitingTime)
         {
-            _ProcessManager.runProcess(path, "powershell.exe", "./kill.ps1", waitingTime);
+            _ProcessManager.RunProcess(path, "powershell.exe", "./kill.ps1", waitingTime);
         }
         /// <summary>
         /// задача выполнения удаления бинарных файлов remove-bin-obj.ps1
@@ -23,7 +26,7 @@ namespace core
         /// <param name="waitingTime"></param>
         internal void removeBinObj(string path, TimeSpan waitingTime)
         {
-            _ProcessManager.runProcess(path, "powershell.exe", "./remove-bin-obj.ps1", waitingTime);
+            _ProcessManager.RunProcess(path, "powershell.exe", "./remove-bin-obj.ps1", waitingTime);
         }
         /// <summary>
         /// задача удаления кэша

@@ -3,6 +3,9 @@ using System.IO;
 
 namespace core
 {
+    /// <summary>
+    /// Класс npm менеджера
+    /// </summary>
     internal class NpmManager
     {
         private FileManager _FileManager = new FileManager();
@@ -31,7 +34,7 @@ namespace core
         /// <param name="waitingTime"></param>
         internal void npmRestore(string path, TimeSpan waitingTime)
         {
-            _ProcessManager.runProcess(path, "npm", "i", waitingTime);
+            _ProcessManager.RunProcess(path, "npm", "i", waitingTime);
         }
     }
 }

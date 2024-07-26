@@ -3,7 +3,7 @@
 namespace core
 {
     /// <summary>
-    /// Класс менеджера задач, отвечающий за их вызов
+    /// Класс менеджера базы данных
     /// </summary>
     internal class DataBaseManager
     {
@@ -25,7 +25,7 @@ namespace core
         /// <param name="waitingTime"></param>
         internal void updateDB(string path, string dbname, TimeSpan waitingTime)
         {
-            _ProcessManager.runProcess(path, "update-db.cmd", $"{dbname} -w", waitingTime);
+            _ProcessManager.RunProcess(path, "update-db.cmd", $"{dbname} -w", waitingTime);
         }
     }
 }

@@ -4,6 +4,9 @@ using System.Text;
 
 namespace core
 {
+    /// <summary>
+    /// Класс менеджера nuget пакетов
+    /// </summary>
     internal class NugetManager
     {
         private ProcessManager _ProcessManager = new ProcessManager();
@@ -14,7 +17,7 @@ namespace core
         /// <param name="waitingTime"></param>
         internal void restoreNuget(string path, TimeSpan waitingTime)
         {
-            _ProcessManager.runProcess(path, "nuget", "restore", waitingTime);
+            _ProcessManager.RunProcess(path, "nuget", "restore", waitingTime);
         }
     }
 }
