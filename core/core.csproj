@@ -11,7 +11,7 @@
   <ItemGroup>
     <PackageReference Include="NLog" Version="5.3.2" />
     <PackageReference Include="NLog.Config" Version="4.7.15" />
-    <Compile Include='C:\Users\admin\Documents\inf\inform\templates\Constants.cs'>
+    <Compile Include='..\templates\Constants.cs'>
 		<Link>templates\Constants.cs</Link>
 	</Compile>
   </ItemGroup>
